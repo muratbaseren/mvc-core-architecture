@@ -3,6 +3,18 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.3.0] - 2026-07-13
+
+### Eklendi
+- **Bildirimler modülü** (`src/Modules/Notifications/App.Modules.Notifications`):
+  - `EntityChangedEvent` (App.Application): modüller arası gevşek bağlı iletişim için
+    ortak MediatR domain event'i — yayıncı ile dinleyici birbirini tanımaz.
+  - `EntityChangedEventHandler`: event'leri uygulama içi bildirime çevirir.
+  - `/Notifications` ekranı: okunmamış sayacı, tek tek / toplu okundu işaretleme.
+  - `SmtpEmailService` (MailKit): `Email:Smtp:Host` yapılandırıldığında dev amaçlı
+    `LogEmailService`'in yerine geçer — şifre sıfırlama e-postaları gerçek SMTP ile gider.
+- Products modülü: ürün oluşturulduğunda `EntityChangedEvent` yayınlar (örnek publisher).
+
 ## [1.2.0] - 2026-07-13
 
 ### Eklendi
