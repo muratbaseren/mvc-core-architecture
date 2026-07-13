@@ -1,50 +1,59 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@using App.SharedKernel.Modules
+<!DOCTYPE html>
+<html lang="tr" class="h-full bg-gray-50">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - App.Web</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - Modüler Mimari</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/App.Web.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body class="h-full flex flex-col min-h-screen text-gray-800">
+    <header class="bg-white border-b border-gray-200 shadow-sm">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a asp-controller="Home" asp-action="Index"
+                   class="text-lg font-bold text-indigo-600 hover:text-indigo-700">
+                    ⬡ Modüler Mimari
+                </a>
+                <div class="hidden sm:flex items-center gap-4 text-sm">
+                    <a asp-controller="Home" asp-action="Index"
+                       class="text-gray-600 hover:text-indigo-600">Ana Sayfa</a>
+                    @foreach (var item in ModuleRegistry.Modules
+                        .SelectMany(m => m.MenuItems)
+                        .OrderBy(i => i.Order))
+                    {
+                        <a href="@item.Url" class="text-gray-600 hover:text-indigo-600">@item.Title</a>
+                    }
+                    <a href="/graphql" class="text-gray-600 hover:text-indigo-600">GraphQL</a>
                 </div>
             </div>
+            <partial name="_LoginPartial" />
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - App.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+        @if (TempData["Success"] is string success)
+        {
+            <div class="mb-6 rounded-lg bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm">
+                @success
+            </div>
+        }
+        @if (TempData["Error"] is string error)
+        {
+            <div class="mb-6 rounded-lg bg-red-50 border border-red-200 text-red-800 px-4 py-3 text-sm">
+                @error
+            </div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto px-4 py-4 text-sm text-gray-500 flex items-center justify-between">
+            <span>&copy; @DateTime.Now.Year - ASP.NET Core Modüler Clean Architecture</span>
+            <span>Yüklü modül: @ModuleRegistry.Modules.Count</span>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

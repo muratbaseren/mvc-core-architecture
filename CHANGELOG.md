@@ -3,6 +3,23 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [0.3.0] - 2026-07-13
+
+### Eklendi
+- **App.Web** host uygulaması:
+  - `ModuleLoader`: `App.Modules.*.dll` assembly'lerini keşfedip `ModuleRegistry`'ye kaydeder.
+    Modül klasörü silindiğinde modül uygulamadan tamamen kalkar.
+  - Wildcard `ProjectReference` (`src/Modules/**/*.csproj`): yeni modül eklemek/kaldırmak
+    için csproj'a dokunmak gerekmez.
+  - Modül assembly'leri `ApplicationPart` olarak eklenir (controller + derlenmiş view keşfi).
+  - **Serilog** entegrasyonu: konsol + günlük dönen dosya (`logs/log-YYYYMMDD.txt`) ve
+    yalnızca hataları içeren günlük dosya (`logs/errors-YYYYMMDD.txt`).
+  - **TailwindCSS** tabanlı layout, modül menülerini otomatik listeleyen navigasyon.
+  - Ana sayfa: yüklü modülleri ve mimari katmanları gösteren dashboard.
+  - `IModule.MenuItems`: modüllerin ana menüye otomatik bağlantı eklemesi.
+- Bootstrap/jQuery şablon dosyaları kaldırıldı.
+- `app.db` ve `logs/` `.gitignore`'a eklendi.
+
 ## [0.2.0] - 2026-07-13
 
 ### Eklendi

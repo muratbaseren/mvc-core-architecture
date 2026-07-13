@@ -1,8 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@using App.SharedKernel.Modules
+@{
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Modüler Clean Architecture</h1>
+    <p class="mt-2 text-gray-600">
+        ASP.NET Core MVC + MediatR + EF Core (SQLite) + GraphQL + Serilog ile modüler mimari.
+        Yeni bir özellik eklemek için <code class="bg-gray-100 px-1 rounded">src/Modules</code> altına
+        bir modül klasörü ekleyin; kaldırmak için klasörü silin.
+    </p>
+</div>
+
+<h2 class="text-xl font-semibold text-gray-900 mb-4">Yüklü Modüller</h2>
+
+@if (ModuleRegistry.Modules.Count == 0)
+{
+    <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-gray-500">
+        Henüz yüklü modül yok. <code class="bg-gray-100 px-1 rounded">src/Modules</code> altına
+        ilk modülünüzü ekleyin.
+    </div>
+}
+else
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @foreach (var module in ModuleRegistry.Modules)
+        {
+            <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-semibold text-gray-900">@module.Name</h3>
+                    <span class="text-xs rounded-full bg-indigo-50 text-indigo-700 px-2 py-0.5">v@(module.Version)</span>
+                </div>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    @foreach (var item in module.MenuItems.OrderBy(i => i.Order))
+                    {
+                        <a href="@item.Url"
+                           class="text-sm text-indigo-600 hover:text-indigo-800 hover:underline">@item.Title →</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<h2 class="text-xl font-semibold text-gray-900 mt-10 mb-4">Mimari Katmanlar</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+    <div class="rounded-xl border border-gray-200 bg-white p-4">
+        <h3 class="font-semibold text-indigo-600">SharedKernel</h3>
+        <p class="mt-1 text-gray-600">BaseEntity, IModule, ModuleRegistry, Result</p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-4">
+        <h3 class="font-semibold text-indigo-600">Application</h3>
+        <p class="mt-1 text-gray-600">MediatR pipeline, Repository/UoW soyutlamaları, FluentValidation</p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-4">
+        <h3 class="font-semibold text-indigo-600">Infrastructure</h3>
+        <p class="mt-1 text-gray-600">EF Core + SQLite, Identity, generic repository</p>
+    </div>
+    <div class="rounded-xl border border-gray-200 bg-white p-4">
+        <h3 class="font-semibold text-indigo-600">Web + Modules</h3>
+        <p class="mt-1 text-gray-600">MVC host, modül keşfi, GraphQL, Tailwind UI</p>
+    </div>
 </div>

@@ -17,4 +17,7 @@ public interface IModule
 
     /// <summary>Modüle özel servis kayıtları burada yapılır.</summary>
     void ConfigureServices(IServiceCollection services, IConfiguration configuration);
+
+    /// <summary>Modülün ana menüye ekleyeceği bağlantılar (opsiyonel).</summary>
+    IEnumerable<ModuleMenuItem> MenuItems => [];
 }
