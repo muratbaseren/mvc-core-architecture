@@ -3,6 +3,19 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.2.0] - 2026-07-13
+
+### Eklendi
+- **Denetim Kayıtları modülü** (`src/Modules/AuditLogging/App.Modules.AuditLogging`):
+  - `AuditSaveChangesInterceptor`: SaveChanges sırasında tüm `BaseEntity`
+    ekleme/güncelleme/silmelerini eski/yeni değerleriyle (JSON) ve kullanıcı adıyla kaydeder.
+  - `AuditLog` entity'si — GraphQL'de `auditLogs` sorgusu otomatik oluşur.
+  - `/Audit` ekranı (Admin rolü): entity'ye göre filtrelenebilir son 200 kayıt.
+
+### Değişti
+- `AddInfrastructure`: DbContext, DI'a kayıtlı EF `IInterceptor`'ları otomatik ekler —
+  modüller EF pipeline'ına interceptor takabilir; modül silinirse interceptor da kalkar.
+
 ## [1.1.0] - 2026-07-13
 
 ### Eklendi

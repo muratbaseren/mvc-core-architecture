@@ -1,0 +1,85 @@
+@model List<AuditLog>
+@{
+    ViewData["Title"] = "Denetim Kayıtları";
+    var entityNames = (List<string>)ViewBag.EntityNames;
+    var selected = (string?)ViewBag.SelectedEntity;
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Denetim Kayıtları</h1>
+    <form method="get" class="flex items-center gap-2 text-sm">
+        <select name="entity" class="rounded-lg border border-gray-300 px-3 py-1.5">
+            <option value="">Tüm Entity'ler</option>
+            @foreach (var name in entityNames)
+            {
+                <option value="@name" selected="@(name == selected)">@name</option>
+            }
+        </select>
+        <button type="submit" class="rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5">
+            Filtrele
+        </button>
+    </form>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500">
+        Henüz denetim kaydı yok.
+    </div>
+}
+else
+{
+    <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50 text-left text-gray-600">
+                <tr>
+                    <th class="px-4 py-3 font-medium">Zaman (UTC)</th>
+                    <th class="px-4 py-3 font-medium">Entity</th>
+                    <th class="px-4 py-3 font-medium">İşlem</th>
+                    <th class="px-4 py-3 font-medium">Kullanıcı</th>
+                    <th class="px-4 py-3 font-medium">Değişiklikler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @foreach (var log in Model)
+                {
+                    <tr class="hover:bg-gray-50 align-top">
+                        <td class="px-4 py-3 whitespace-nowrap text-gray-600">
+                            @log.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-gray-900">@log.EntityName</div>
+                            <div class="text-xs text-gray-400">@log.EntityId</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            @{
+                                var badge = log.Action switch
+                                {
+                                    "Added" => "bg-green-50 text-green-700",
+                                    "Modified" => "bg-amber-50 text-amber-700",
+                                    "Deleted" => "bg-red-50 text-red-700",
+                                    _ => "bg-gray-100 text-gray-600"
+                                };
+                                var actionText = log.Action switch
+                                {
+                                    "Added" => "Eklendi",
+                                    "Modified" => "Güncellendi",
+                                    "Deleted" => "Silindi",
+                                    _ => log.Action
+                                };
+                            }
+                            <span class="rounded-full @badge px-2 py-0.5 text-xs">@actionText</span>
+                        </td>
+                        <td class="px-4 py-3 text-gray-600">@(log.UserName ?? "-")</td>
+                        <td class="px-4 py-3">
+                            <details class="text-xs">
+                                <summary class="cursor-pointer text-indigo-600 hover:underline">Göster</summary>
+                                <pre class="mt-2 max-w-md overflow-x-auto rounded bg-gray-50 p-2 text-gray-700">@log.Changes</pre>
+                            </details>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
