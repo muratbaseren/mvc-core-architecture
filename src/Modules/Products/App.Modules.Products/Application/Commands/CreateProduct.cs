@@ -1,4 +1,5 @@
 using App.Application.Abstractions;
+using App.Application.Events;
 using App.Modules.Products.Domain;
 using App.SharedKernel.Common;
 using FluentValidation;
@@ -28,7 +29,8 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
 
 public class CreateProductHandler(
     IRepository<Product> repository,
-    IUnitOfWork unitOfWork) : IRequestHandler<CreateProductCommand, Result<Guid>>
+    IUnitOfWork unitOfWork,
+    IPublisher publisher) : IRequestHandler<CreateProductCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
@@ -42,6 +44,11 @@ public class CreateProductHandler(
 
         await repository.AddAsync(product, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        // Diğer modüller (örn. Bildirimler) bu event'i dinleyebilir.
+        await publisher.Publish(
+            new EntityChangedEvent(nameof(Product), product.Id, "Created", product.Name),
+            cancellationToken);
 
         return Result.Success(product.Id);
     }
