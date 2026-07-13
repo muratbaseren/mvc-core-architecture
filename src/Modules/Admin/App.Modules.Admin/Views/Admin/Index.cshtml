@@ -1,0 +1,71 @@
+@model List<UserListItem>
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Kullanıcı Yönetimi</h1>
+    <span class="text-sm text-gray-500">@Model.Count kullanıcı</span>
+</div>
+
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+                <th class="px-4 py-3 font-medium">Kullanıcı</th>
+                <th class="px-4 py-3 font-medium">Rol</th>
+                <th class="px-4 py-3 font-medium">Durum</th>
+                <th class="px-4 py-3 font-medium text-right">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            @foreach (var user in Model)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                        <div class="font-medium text-gray-900">@(user.FullName ?? "-")</div>
+                        <div class="text-gray-500">@user.Email</div>
+                    </td>
+                    <td class="px-4 py-3">
+                        @if (user.IsAdmin)
+                        {
+                            <span class="rounded-full bg-indigo-50 text-indigo-700 px-2 py-0.5 text-xs">Admin</span>
+                        }
+                        else
+                        {
+                            <span class="rounded-full bg-gray-100 text-gray-600 px-2 py-0.5 text-xs">Üye</span>
+                        }
+                    </td>
+                    <td class="px-4 py-3">
+                        @if (user.IsLockedOut)
+                        {
+                            <span class="rounded-full bg-red-50 text-red-700 px-2 py-0.5 text-xs">Kilitli</span>
+                        }
+                        else
+                        {
+                            <span class="rounded-full bg-green-50 text-green-700 px-2 py-0.5 text-xs">Aktif</span>
+                        }
+                    </td>
+                    <td class="px-4 py-3 text-right whitespace-nowrap">
+                        <form asp-action="ToggleAdmin" asp-route-id="@user.Id" method="post" class="inline">
+                            <button type="submit" class="text-indigo-600 hover:underline mr-3">
+                                @(user.IsAdmin ? "Admin Rolünü Al" : "Admin Yap")
+                            </button>
+                        </form>
+                        <form asp-action="ToggleLock" asp-route-id="@user.Id" method="post" class="inline">
+                            <button type="submit" class="text-red-600 hover:underline">
+                                @(user.IsLockedOut ? "Kilidi Aç" : "Kilitle")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p class="mt-4 text-sm text-gray-500">
+    Varsayılan yönetici: <code class="bg-gray-100 px-1 rounded">admin@local.dev / Admin123!</code>
+    (appsettings <code class="bg-gray-100 px-1 rounded">Admin:Email</code> /
+    <code class="bg-gray-100 px-1 rounded">Admin:Password</code> ile değiştirilebilir).
+</p>

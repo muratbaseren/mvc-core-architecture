@@ -8,6 +8,9 @@
     <Project Path="src/Infrastructure/App.Infrastructure/App.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Admin/">
+    <Project Path="src/Modules/Admin/App.Modules.Admin/App.Modules.Admin.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Products/">
     <Project Path="src/Modules/Products/App.Modules.Products/App.Modules.Products.csproj" />
   </Folder>
