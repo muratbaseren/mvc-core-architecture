@@ -1,0 +1,72 @@
+@model List<MediaFile>
+@{
+    ViewData["Title"] = "Medya";
+
+    static string FormatSize(long bytes) => bytes switch
+    {
+        >= 1024 * 1024 => $"{bytes / (1024.0 * 1024.0):0.#} MB",
+        >= 1024 => $"{bytes / 1024.0:0.#} KB",
+        _ => $"{bytes} B"
+    };
+}
+
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Medya Kütüphanesi</h1>
+</div>
+
+<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm mb-6">
+    <form asp-action="Upload" method="post" enctype="multipart/form-data"
+          class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <input type="file" name="file"
+               class="block text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-4 file:py-2 file:text-indigo-700 hover:file:bg-indigo-100" />
+        <button type="submit"
+                class="rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 text-sm font-medium">
+            Yükle
+        </button>
+    </form>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500">
+        Henüz dosya yüklenmedi.
+    </div>
+}
+else
+{
+    <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50 text-left text-gray-600">
+                <tr>
+                    <th class="px-4 py-3 font-medium">Dosya</th>
+                    <th class="px-4 py-3 font-medium">Tür</th>
+                    <th class="px-4 py-3 font-medium">Boyut</th>
+                    <th class="px-4 py-3 font-medium">Yükleyen</th>
+                    <th class="px-4 py-3 font-medium">Tarih</th>
+                    <th class="px-4 py-3 font-medium text-right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @foreach (var file in Model)
+                {
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3">
+                            <a href="@file.Url" target="_blank"
+                               class="font-medium text-indigo-600 hover:underline">@file.FileName</a>
+                        </td>
+                        <td class="px-4 py-3 text-gray-600">@(file.ContentType ?? "-")</td>
+                        <td class="px-4 py-3 text-gray-600">@FormatSize(file.SizeBytes)</td>
+                        <td class="px-4 py-3 text-gray-600">@(file.UploadedBy ?? "-")</td>
+                        <td class="px-4 py-3 text-gray-600">@file.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="px-4 py-3 text-right">
+                            <form asp-action="Delete" asp-route-id="@file.Id" method="post" class="inline"
+                                  onsubmit="return confirm('Bu dosyayı silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="text-red-600 hover:underline">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

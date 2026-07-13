@@ -3,6 +3,17 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.4.0] - 2026-07-13
+
+### Eklendi
+- **Medya modülü** (`src/Modules/Media/App.Modules.Media`):
+  - `IFileStorage` soyutlaması (App.Application) — S3/Azure Blob gibi sağlayıcılarla
+    değiştirilebilir dosya depolama sözleşmesi.
+  - `LocalFileStorage`: dosyaları `wwwroot/uploads` altına GUID önekiyle kaydeder.
+  - `/Media` ekranı: dosya yükleme (boyut limiti `Media:MaxFileSizeMb`, varsayılan 10 MB),
+    listeleme, silme; yüklenen dosyalar statik olarak servis edilir.
+  - `MediaFile` entity'si — GraphQL'de `mediaFiles` sorgusu otomatik oluşur.
+
 ## [1.3.0] - 2026-07-13
 
 ### Eklendi
