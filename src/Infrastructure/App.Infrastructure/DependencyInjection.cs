@@ -21,8 +21,13 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("Default")
                                ?? "Data Source=app.db";
 
-        services.AddDbContext<AppDbContext>(options =>
+        // DbContextFactory: GraphQL resolver'ları gibi paralel çalışan tüketiciler
+        // kendi context örneğini üretebilsin diye. Scoped AppDbContext kaydı da
+        // factory üzerinden yapılır (MVC + Identity bu kaydı kullanır).
+        services.AddDbContextFactory<AppDbContext>(options =>
             options.UseSqlite(connectionString));
+        services.AddScoped(sp =>
+            sp.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext());
 
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();

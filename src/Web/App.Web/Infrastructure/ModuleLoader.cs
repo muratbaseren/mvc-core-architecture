@@ -19,7 +19,7 @@ public static class ModuleLoader
 
         foreach (var file in moduleFiles)
         {
-            var assemblyName = Path.GetFileNameWithoutExtension(file);
+            var assemblyName = System.IO.Path.GetFileNameWithoutExtension(file);
             var assembly = Assembly.Load(new AssemblyName(assemblyName));
 
             var moduleTypes = assembly.GetTypes()

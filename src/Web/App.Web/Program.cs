@@ -2,6 +2,7 @@ using App.Application;
 using App.Infrastructure;
 using App.SharedKernel.Modules;
 using App.Web.Infrastructure;
+using App.Web.Infrastructure.GraphQl;
 using Serilog;
 
 // Uygulama başlarken oluşabilecek hataları da yakalamak için bootstrap logger.
@@ -38,6 +39,9 @@ try
     var mvcBuilder = builder.Services.AddControllersWithViews();
     foreach (var assembly in ModuleRegistry.Assemblies)
         mvcBuilder.AddApplicationPart(assembly);
+
+    // GraphQL: modül entity'lerinden otomatik şema üretimi.
+    builder.Services.AddModularGraphQl();
 
     // Google ile giriş: yalnızca appsettings'te ClientId tanımlıysa etkinleşir.
     var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -77,6 +81,9 @@ try
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    // GraphQL endpoint'i (+ tarayıcıda Nitro IDE: /graphql).
+    app.MapGraphQL();
 
     // Veritabanı şemasını (modül entity'leri dahil) oluştur.
     await app.Services.InitializeDatabaseAsync();

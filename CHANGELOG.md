@@ -3,6 +3,22 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [0.5.0] - 2026-07-13
+
+### Eklendi
+- **GraphQL API** (HotChocolate 16):
+  - `/graphql` endpoint'i (tarayıcıdan açıldığında Nitro IDE).
+  - `EntityQueryExtension<T>`: Her aggregate root entity için **otomatik** query alanları —
+    çoğul liste alanı (cursor sayfalama + filtreleme + sıralama) ve `xxxById(id)` tekil alanı.
+    Yeni entity eklendiğinde şema kendiliğinden genişler.
+  - Modül assembly'lerindeki `ObjectTypeExtension` sınıfları (modüle özel mutation/query'ler)
+    otomatik keşfedilip şemaya eklenir.
+  - GraphQL resolver'ları için `IDbContextFactory` tabanlı güvenli DbContext yönetimi.
+
+### Değişti
+- `AddInfrastructure`: `AddDbContext` yerine `AddDbContextFactory` + factory'den scoped kayıt
+  (MVC/Identity aynı şekilde çalışır, GraphQL paralel resolver'ları için güvenli).
+
 ## [0.4.0] - 2026-07-13
 
 ### Eklendi
