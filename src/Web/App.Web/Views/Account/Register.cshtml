@@ -1,0 +1,54 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+}
+
+<div class="max-w-md mx-auto">
+    <div class="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">Kayıt Ol</h1>
+
+        <form asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="space-y-4">
+            <div asp-validation-summary="ModelOnly" class="text-sm text-red-600"></div>
+
+            <div>
+                <label asp-for="FullName" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="FullName" autocomplete="name"
+                       class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span asp-validation-for="FullName" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="Email" autocomplete="username"
+                       class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span asp-validation-for="Email" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="Password" autocomplete="new-password"
+                       class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span asp-validation-for="Password" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="ConfirmPassword" autocomplete="new-password"
+                       class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span asp-validation-for="ConfirmPassword" class="text-sm text-red-600"></span>
+            </div>
+
+            <button type="submit"
+                    class="w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 font-medium">
+                Kayıt Ol
+            </button>
+        </form>
+
+        <partial name="_ExternalLogins" />
+
+        <p class="mt-6 text-sm text-center text-gray-600">
+            Zaten hesabınız var mı?
+            <a asp-action="Login" class="text-indigo-600 hover:underline">Giriş yapın</a>
+        </p>
+    </div>
+</div>
