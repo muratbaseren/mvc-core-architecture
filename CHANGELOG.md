@@ -3,6 +3,25 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [0.4.0] - 2026-07-13
+
+### Eklendi
+- **Kimlik doğrulama ekranları** (`AccountController` + Tailwind view'ları):
+  - Kayıt Ol (`/Account/Register`) — kayıt sonrası otomatik giriş.
+  - Giriş (`/Account/Login`) — kilitleme (lockout) destekli.
+  - Şifremi Unuttum (`/Account/ForgotPassword`) — sıfırlama bağlantısı `IEmailService`
+    üzerinden gönderilir (dev ortamında log dosyasına yazılır).
+  - Şifre Sıfırlama (`/Account/ResetPassword`) — token doğrulamalı.
+  - Erişim Engellendi ve onay sayfaları.
+- **Google ile giriş**: `Authentication:Google:ClientId/ClientSecret` appsettings'te
+  tanımlandığında otomatik etkinleşir; giriş/kayıt sayfalarında Google butonu görünür.
+  Harici hesap ilk girişte e-posta üzerinden yerel hesapla eşleştirilir/oluşturulur.
+- Layout'a giriş durumu bölümü (`_LoginPartial`) eklendi.
+
+### Doğrulandı
+- Kayıt → otomatik giriş → şifremi unuttum → sıfırlama bağlantısı → yeni şifre ile
+  giriş akışının tamamı uçtan uca test edildi.
+
 ## [0.3.0] - 2026-07-13
 
 ### Eklendi

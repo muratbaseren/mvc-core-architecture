@@ -39,6 +39,17 @@ try
     foreach (var assembly in ModuleRegistry.Assemblies)
         mvcBuilder.AddApplicationPart(assembly);
 
+    // Google ile giriş: yalnızca appsettings'te ClientId tanımlıysa etkinleşir.
+    var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+    if (!string.IsNullOrWhiteSpace(googleClientId))
+    {
+        builder.Services.AddAuthentication().AddGoogle(options =>
+        {
+            options.ClientId = googleClientId;
+            options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+        });
+    }
+
     // Identity cookie yolları.
     builder.Services.ConfigureApplicationCookie(options =>
     {
