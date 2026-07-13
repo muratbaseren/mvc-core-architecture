@@ -432,3 +432,4 @@ FodyWeavers.xsd
 app.db
 app.db-*
 logs/
+src/Web/App.Web/wwwroot/uploads/

@@ -14,6 +14,9 @@
   <Folder Name="/src/Modules/AuditLogging/">
     <Project Path="src/Modules/AuditLogging/App.Modules.AuditLogging/App.Modules.AuditLogging.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/Media/">
+    <Project Path="src/Modules/Media/App.Modules.Media/App.Modules.Media.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Notifications/">
     <Project Path="src/Modules/Notifications/App.Modules.Notifications/App.Modules.Notifications.csproj" />
   </Folder>
