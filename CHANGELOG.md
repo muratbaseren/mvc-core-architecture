@@ -3,6 +3,27 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [0.6.0] - 2026-07-13
+
+### Eklendi
+- **Ürünler modülü** (`src/Modules/Products/App.Modules.Products`) — örnek/referans modül:
+  - `ProductsModule` (IModule): modül tanımı + menü kaydı ("Ürünler").
+  - `Product` entity'si (`BaseEntity` + `IAggregateRoot`) — EF Core ve GraphQL'e otomatik dahil.
+  - `ProductConfiguration` (IEntityTypeConfiguration) — tablo/kolon ayarları otomatik keşfedilir.
+  - MediatR command/query'leri: `CreateProduct`, `UpdateProduct`, `DeleteProduct`,
+    `GetProducts`, `GetProductById` (FluentValidation validator'larıyla).
+  - `ProductsController` + Tailwind view'ları (liste, ekle, düzenle, sil) —
+    view'lar modül assembly'sine derlenir (Razor Class Library).
+  - `ProductMutations`: modüle özel GraphQL `createProduct` mutation örneği
+    (MediatR pipeline'ı üzerinden, validation dahil).
+- GraphQL şemasına varsayılan `Mutation` kökü eklendi (`ping` alanı).
+
+### Doğrulandı
+- Modül otomatik yüklendi; `/Products` ekranı, GraphQL `products` / `productById`
+  sorguları, `where/order` filtreleri ve `createProduct` mutation'ı uçtan uca test edildi.
+- Modül klasörü silindiğinde uygulamanın modülsüz çalıştığı senaryo tasarım gereği
+  wildcard referans + runtime keşif ile garanti edilir.
+
 ## [0.5.0] - 2026-07-13
 
 ### Eklendi

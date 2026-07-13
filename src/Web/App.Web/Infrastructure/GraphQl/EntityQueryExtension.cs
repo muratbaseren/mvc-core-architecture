@@ -45,6 +45,7 @@ public class EntityQueryExtension<TEntity> : ObjectTypeExtension
         // Tekil alan: id ile getir.
         descriptor
             .Field(GraphQlNaming.ToByIdFieldName(entityName))
+            .Type<ObjectType<TEntity>>()
             .Argument("id", a => a.Type<NonNullType<UuidType>>())
             .Resolve(async ctx =>
             {

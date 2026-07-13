@@ -20,6 +20,10 @@ public static class GraphQlSetup
                 .Name(OperationTypeNames.Query)
                 .Field("health")
                 .Resolve("OK"))
+            .AddMutationType(d => d
+                .Name(OperationTypeNames.Mutation)
+                .Field("ping")
+                .Resolve("pong"))
             .AddFiltering()
             .AddSorting();
 
