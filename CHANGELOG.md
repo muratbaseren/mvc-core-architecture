@@ -3,6 +3,19 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.0.0] - 2026-07-13
+
+### Eklendi
+- **README.md** (Türkçe): mimari anlatımı, hızlı başlangıç, modülerliğin çalışma şekli,
+  adım adım yeni modül geliştirme rehberi (Notes örneği), var olan yapıların
+  (Repository/UoW, MediatR, GraphQL, e-posta, loglama) mini kullanım örnekleri,
+  Google auth kurulumu ve tasarım kararları.
+
+### Sürüm notu
+- 1.0.0, mimarinin ilk tamamlanmış sürümüdür: Clean Architecture katmanları, klasör-bazlı
+  modülerlik, MediatR + FluentValidation pipeline, EF Core (SQLite) Repository/UoW,
+  otomatik GraphQL şeması, Identity (Google dahil) ve Serilog dosya loglaması içerir.
+
 ## [0.6.0] - 2026-07-13
 
 ### Eklendi
