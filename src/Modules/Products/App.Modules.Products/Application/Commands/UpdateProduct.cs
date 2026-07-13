@@ -12,7 +12,11 @@ public record UpdateProductCommand(
     string? Description,
     decimal Price,
     int Stock,
-    bool IsActive) : IRequest<Result>;
+    bool IsActive) : IRequest<Result>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate =>
+        [ProductCacheKeys.All, ProductCacheKeys.ById(Id)];
+}
 
 public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
 {
