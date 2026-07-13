@@ -24,8 +24,12 @@ public static class DependencyInjection
         // DbContextFactory: GraphQL resolver'ları gibi paralel çalışan tüketiciler
         // kendi context örneğini üretebilsin diye. Scoped AppDbContext kaydı da
         // factory üzerinden yapılır (MVC + Identity bu kaydı kullanır).
-        services.AddDbContextFactory<AppDbContext>(options =>
-            options.UseSqlite(connectionString));
+        // Modüller DI'a IInterceptor kaydederek EF pipeline'ına eklenebilir
+        // (örn. AuditLogging modülünün SaveChanges interceptor'ı).
+        services.AddDbContextFactory<AppDbContext>((serviceProvider, options) =>
+            options
+                .UseSqlite(connectionString)
+                .AddInterceptors(serviceProvider.GetServices<Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor>()));
         services.AddScoped(sp =>
             sp.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext());
 

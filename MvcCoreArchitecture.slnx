@@ -11,6 +11,9 @@
   <Folder Name="/src/Modules/Admin/">
     <Project Path="src/Modules/Admin/App.Modules.Admin/App.Modules.Admin.csproj" />
   </Folder>
+  <Folder Name="/src/Modules/AuditLogging/">
+    <Project Path="src/Modules/AuditLogging/App.Modules.AuditLogging/App.Modules.AuditLogging.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Products/">
     <Project Path="src/Modules/Products/App.Modules.Products/App.Modules.Products.csproj" />
   </Folder>
