@@ -5,7 +5,11 @@ using MediatR;
 
 namespace App.Modules.Products.Application.Commands;
 
-public record DeleteProductCommand(Guid Id) : IRequest<Result>;
+public record DeleteProductCommand(Guid Id) : IRequest<Result>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate =>
+        [ProductCacheKeys.All, ProductCacheKeys.ById(Id)];
+}
 
 public class DeleteProductHandler(
     IRepository<Product> repository,

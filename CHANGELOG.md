@@ -3,6 +3,20 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.5.0] - 2026-07-13
+
+### Eklendi
+- **Önbellekleme pipeline davranışı** (App.Application):
+  - `ICacheableQuery`: uygulayan sorguların sonucu `IMemoryCache`'te tutulur
+    (anahtar + süre sorgu üzerinde tanımlanır, handler'a dokunulmaz).
+  - `ICacheInvalidator`: uygulayan komutlar tamamlanınca belirtilen anahtarlar temizlenir.
+  - `CachingBehavior`: MediatR pipeline'ına eklendi (Logging → Validation → Caching sırası).
+- Products modülünde örnek kullanım: `GetProductsQuery` önbelleğe alınır;
+  Create/Update/Delete komutları ilgili anahtarları temizler (`ProductCacheKeys`).
+
+### Doğrulandı
+- Önbelleğe yazma → okuma → komutla temizleme → yeniden yazma akışı loglarla test edildi.
+
 ## [1.4.0] - 2026-07-13
 
 ### Eklendi

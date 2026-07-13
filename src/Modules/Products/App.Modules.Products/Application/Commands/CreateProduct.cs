@@ -11,7 +11,10 @@ public record CreateProductCommand(
     string Name,
     string? Description,
     decimal Price,
-    int Stock) : IRequest<Result<Guid>>;
+    int Stock) : IRequest<Result<Guid>>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate => [ProductCacheKeys.All];
+}
 
 public class CreateProductValidator : AbstractValidator<CreateProductCommand>
 {
