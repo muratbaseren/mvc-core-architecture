@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Kullanıcı/rol yönetimi Identity store'una (AppUser) ihtiyaç duyar. -->
+    <ProjectReference Include="..\..\..\Infrastructure\App.Infrastructure\App.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

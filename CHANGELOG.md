@@ -3,6 +3,19 @@
 Bu projede yapılan tüm önemli değişiklikler bu dosyada belgelenir.
 En yeni sürüm her zaman en üsttedir.
 
+## [1.1.0] - 2026-07-13
+
+### Eklendi
+- **Yönetim modülü** (`src/Modules/Admin/App.Modules.Admin`):
+  - `/Admin` — kullanıcı listesi (rol ve kilit durumuyla), yalnızca `Admin` rolüne açık.
+  - Kullanıcıya Admin rolü verme/alma ve hesap kilitleme/açma işlemleri
+    (kendi hesabında değişiklik engellenir).
+  - `IdentitySeeder` (IHostedService): açılışta `Admin` rolünü ve varsayılan yöneticiyi
+    (`admin@local.dev / Admin123!`, appsettings `Admin:Email` / `Admin:Password` ile
+    değiştirilebilir) oluşturur.
+  - Modülün `ConfigureServices` üzerinden kendi hosted service'ini kaydetmesi,
+    modül-servis kaydının referans örneğidir.
+
 ## [1.0.0] - 2026-07-13
 
 ### Eklendi
